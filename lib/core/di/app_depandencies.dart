@@ -1,25 +1,14 @@
-import 'package:clean_architecture_with_bloc/data/login/data_sourses/auth_remote_datasource.dart';
-import 'package:clean_architecture_with_bloc/data/login/repositories/auth_repo_impl.dart';
+import 'package:clean_architecture_with_bloc/core/di/login/login_dependencies.dart';
 
-import '../../core/network/api_client.dart';
-
-
-import '../../domain/login/usecases/login_user.dart';
+import '../network/api_client.dart';
 
 class AppDependencies {
   late final ApiClient apiClient;
-
-  // Login feature
-  late final AuthRemoteDataSource authRemoteDataSource;
-  late final AuthRepositoryImpl authRepository;
-  late final LoginUser loginUser;
+  late final LoginDependencies login;
 
   AppDependencies() {
     apiClient = ApiClient();
 
-    // Login
-    authRemoteDataSource = AuthRemoteDataSource(apiClient);
-    authRepository = AuthRepositoryImpl(authRemoteDataSource);
-    loginUser = LoginUser(authRepository);
+    login = LoginDependencies(apiClient);
   }
 }

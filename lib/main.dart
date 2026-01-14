@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => LoginBloc(deps.loginUser))],
+      providers: [BlocProvider(create: (_) => LoginBloc(deps.login.loginUser))],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: RouteNames.login,
