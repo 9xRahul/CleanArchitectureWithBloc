@@ -9,9 +9,9 @@ class AuthRemoteDataSource {
 
   Future<UserModel> login(String username, String password) async {
     Map<String, dynamic> data = {"username": username, "password": password};
-    print(data);
-    var response = await ApiClient().postApi(data);
 
+    var response = await ApiClient().postApi(data);
+    print("response$response.");
     return UserModel.fromJson(response);
   }
 }

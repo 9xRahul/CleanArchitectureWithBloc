@@ -10,6 +10,7 @@ class LoginSuccess extends LoginState {
 }
 
 class LoginFailure extends LoginState {
+  final int statusCode;
   final String message;
-  LoginFailure(this.message);
+  LoginFailure(this.message, this.statusCode);
 }

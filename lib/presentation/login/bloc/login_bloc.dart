@@ -1,3 +1,4 @@
+import 'package:clean_architecture_with_bloc/core/error/api_exceptions.dart';
 import 'package:clean_architecture_with_bloc/domain/login/usecases/login_user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,8 +23,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final user = await loginUser(event.username, event.password);
 
       emit(LoginSuccess(user.token));
-    } catch (_) {
-      emit(LoginFailure('Login failed'));
+    } on AppException catch (e) {
+      emit(LoginFailure(e.message.toString(), e.statusCode));
     }
   }
 }
