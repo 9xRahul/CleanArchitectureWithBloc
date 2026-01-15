@@ -20,7 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     try {
       print(event.username);
-      final user = await loginUser(event.username, event.password);
+      final user = await loginUser.call(event.username, event.password);
 
       emit(LoginSuccess(user.token));
     } on AppException catch (e) {

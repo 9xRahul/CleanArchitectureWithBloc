@@ -1,3 +1,4 @@
+import 'package:clean_architecture_with_bloc/core/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/login_bloc.dart';
@@ -25,6 +26,11 @@ class LoginScreen extends StatelessWidget {
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text('Token: ${state.token}')));
+              Navigator.of(context).pushNamed(RouteNames.productsScreen);
+            } else if (state is LoginFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Error: ${state.message}')),
+              );
             }
           },
           builder: (context, state) {
@@ -58,12 +64,6 @@ class LoginScreen extends StatelessWidget {
                   Text(
                     "Login success",
                     style: const TextStyle(color: Colors.green),
-                  ),
-
-                if (state is LoginFailure)
-                  Text(
-                    state.message,
-                    style: const TextStyle(color: Colors.red),
                   ),
               ],
             );

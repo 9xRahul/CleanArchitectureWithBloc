@@ -30,6 +30,32 @@ class ApiClient {
     }
   }
 
+  Future<dynamic> getApi({
+    required String path,
+    Map<String, dynamic>? queryParams,
+  }) async {
+    try {
+      final response = await dio.get(path, queryParameters: queryParams);
+      final responseData = getResponseData(response);
+      return responseData;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        final statusCode = e.response!.statusCode ?? 0;
+        final data = e.response!.data;
+
+        String message = "Unknown error";
+
+        if (data is Map && data['message'] != null) {
+          message = data['message'];
+        }
+
+        throw InvalidCredentialsException(message, statusCode);
+      }
+
+      throw NetworkException();
+    }
+  }
+
   dynamic getResponseData(Response<dynamic> response) {
     print("code${response.statusCode}");
     switch (response.statusCode) {
