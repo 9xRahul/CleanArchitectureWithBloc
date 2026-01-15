@@ -1,4 +1,5 @@
 import 'package:clean_architecture_with_bloc/core/error/api_exceptions.dart';
+import 'package:clean_architecture_with_bloc/core/storage/secure_auth_storage.dart';
 import 'package:clean_architecture_with_bloc/domain/login/usecases/login_user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +21,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     try {
       print(event.username);
+
+      final storage = SecureAuthStorage();
       final user = await loginUser.call(event.username, event.password);
+
+      storage.saveToken(user.token);
 
       emit(LoginSuccess(user.token));
     } on AppException catch (e) {

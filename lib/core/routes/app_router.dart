@@ -1,4 +1,5 @@
 import 'package:clean_architecture_with_bloc/core/routes/route_names.dart';
+import 'package:clean_architecture_with_bloc/presentation/app_start/screen/app_start_screen.dart';
 import 'package:clean_architecture_with_bloc/presentation/login/screens/login_screen.dart';
 import 'package:clean_architecture_with_bloc/presentation/products/screens/products_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,10 @@ class AppRouter {
       case RouteNames.productsScreen:
         return MaterialPageRoute(
           builder: (BuildContext context) => ProductScreen(),
+        );
+      case RouteNames.appStartScreen:
+        return MaterialPageRoute(
+          builder: (BuildContext context) => AppStartScreen(),
         );
       default:
         return MaterialPageRoute(
