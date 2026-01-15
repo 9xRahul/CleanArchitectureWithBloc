@@ -2,17 +2,22 @@ import 'package:clean_architecture_with_bloc/core/api_urls/api_urls.dart';
 import 'package:clean_architecture_with_bloc/core/network/api_client.dart';
 import 'package:clean_architecture_with_bloc/data/products/models/products_model.dart';
 
-class ProdcutRemoteDataSource {
+class ProductRemoteDataSource {
   final ApiClient apiClient;
 
-  ProdcutRemoteDataSource(this.apiClient);
+  ProductRemoteDataSource(this.apiClient);
 
-  Future<ProductModel> getAllProducts({String? category}) async {
-    String path = category!.isEmpty
+  Future<List<ProductModel>> getAllProducts({String? category}) async {
+    print("Reached remote data source");
+
+    final String path = (category == null || category.isEmpty)
         ? ApiUrls.getAllProducts
-        : "${ApiUrls.getAllProducts}/$category";
+        : "${ApiUrls.getAllProducts}/category/$category";
 
-    var response = await apiClient.getApi(path: path);
-    return ProductModel.fromJson(response);
+    final response = await apiClient.getApi(path: path); // ✅ use path
+
+    final list = response['products'] as List;
+
+    return list.map((e) => ProductModel.fromJson(e)).toList();
   }
 }

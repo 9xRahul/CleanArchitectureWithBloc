@@ -5,7 +5,9 @@ class GetProducts {
   final ProductRepository productRepository;
   GetProducts(this.productRepository);
 
-  Future<ProductEntity> call(String? category) {
+  Future<List<ProductEntity>> call({String? category}) {
+    print("reched usecase");
+
     return productRepository.getProducts(category: category);
   }
 }

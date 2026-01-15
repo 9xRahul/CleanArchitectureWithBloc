@@ -4,13 +4,14 @@ import 'package:clean_architecture_with_bloc/domain/products/entities/product_en
 import 'package:clean_architecture_with_bloc/domain/products/repositories/product_repository.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
-  final ProdcutRemoteDataSource remoteDataSource;
+  final ProductRemoteDataSource remoteDataSource;
 
   ProductRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<ProductEntity> getProducts({String? category}) async {
+  Future<List<ProductEntity>> getProducts({String? category}) async {
+
     final model = await remoteDataSource.getAllProducts(category: category);
-    return ProductMapper.toEntity(model);
+    return model.map((model) => ProductMapper.toEntity(model)).toList();
   }
 }
