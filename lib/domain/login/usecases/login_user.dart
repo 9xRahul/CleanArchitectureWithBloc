@@ -9,4 +9,8 @@ class LoginUser {
   Future<User> call(String username, String password) {
     return repository.login(username, password);
   }
+
+  Future<void> logout() async {
+    await repository.logout();
+  }
 }

@@ -3,6 +3,7 @@ import 'package:clean_architecture_with_bloc/core/routes/app_router.dart';
 import 'package:clean_architecture_with_bloc/core/routes/route_names.dart';
 import 'package:clean_architecture_with_bloc/core/storage/secure_auth_storage.dart';
 import 'package:clean_architecture_with_bloc/presentation/app_start/cubit/app_start_cubit.dart';
+import 'package:clean_architecture_with_bloc/presentation/bottom_navigation/cubit/navigation_cubit.dart';
 import 'package:clean_architecture_with_bloc/presentation/products/bloc/products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,9 +25,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => LoginBloc(deps.login.loginUser)),
         BlocProvider(create: (_) => AppStartCubit(SecureAuthStorage())),
 
-        BlocProvider(create: (_) => LoginBloc(deps.login.loginUser)),
+        BlocProvider(create: (_) => BottomNavCubit()),
+
         BlocProvider(
           create: (context) =>
               ProductsBloc(deps.productDependencies.getProducts),

@@ -1,4 +1,7 @@
-import 'package:clean_architecture_with_bloc/core/widgets/snack_bar.dart';
+import 'package:clean_architecture_with_bloc/core/routes/route_names.dart';
+import 'package:clean_architecture_with_bloc/core/utils/snack_bar.dart';
+import 'package:clean_architecture_with_bloc/presentation/login/bloc/login_bloc.dart';
+import 'package:clean_architecture_with_bloc/presentation/login/bloc/login_event.dart';
 import 'package:clean_architecture_with_bloc/presentation/products/bloc/products_bloc.dart';
 import 'package:clean_architecture_with_bloc/presentation/products/screens/widgets/product_grid.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,7 @@ class _ProductScreenState extends State<ProductScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    
     context.read<ProductsBloc>().add(FetchProducts());
   }
 
@@ -23,7 +27,10 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text("All Poducts")),
+        appBar: AppBar(
+          title: Text("All Poducts"),
+          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
+        ),
         body: BlocConsumer<ProductsBloc, ProductsState>(
           listener: (context, state) {
             print("loading.........");
@@ -34,7 +41,9 @@ class _ProductScreenState extends State<ProductScreen> {
             }
           },
           builder: (context, state) {
-            if (state is ProductsLoadSuccess) {
+            if (state is ProductsLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ProductsLoadSuccess) {
               final products = state.products;
 
               return GridView.builder(
@@ -52,12 +61,9 @@ class _ProductScreenState extends State<ProductScreen> {
                   return ProductGridCard(product: product);
                 },
               );
-            } else if (state is ProductsLoading) {
-              Center(child: CircularProgressIndicator());
             } else {
-              Center(child: Text("Failed to load products"));
+              return Center(child: Text("Failed to load products"));
             }
-            return Container();
           },
         ),
       ),

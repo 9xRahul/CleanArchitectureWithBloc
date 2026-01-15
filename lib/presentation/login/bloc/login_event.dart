@@ -6,3 +6,4 @@ class LoginSubmitted extends LoginEvent {
 
   LoginSubmitted(this.username, this.password);
 }
+
