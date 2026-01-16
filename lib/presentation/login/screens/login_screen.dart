@@ -1,6 +1,6 @@
-import 'package:clean_architecture_with_bloc/core/enums/auth_state.dart';
 import 'package:clean_architecture_with_bloc/core/routes/route_names.dart';
 import 'package:clean_architecture_with_bloc/core/utils/snack_bar.dart';
+import 'package:clean_architecture_with_bloc/presentation/bottom_navigation/cubit/navigation_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/login_bloc.dart';
@@ -26,9 +26,9 @@ class LoginScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is LoginSuccess) {
               showSnackBar(context, "Login Success");
-
+              context.read<BottomNavCubit>().resetIndex(0);
               Navigator.of(context).pushNamedAndRemoveUntil(
-                RouteNames.productsScreen,
+                RouteNames.bottomNavScreen,
                 (route) => false,
               );
             } else if (state is LoginFailure) {
@@ -60,12 +60,6 @@ class LoginScreen extends StatelessWidget {
                       );
                     },
                     child: const Text('Login'),
-                  ),
-
-                if (state is LoginSuccess)
-                  Text(
-                    "Login success",
-                    style: const TextStyle(color: Colors.green),
                   ),
               ],
             );

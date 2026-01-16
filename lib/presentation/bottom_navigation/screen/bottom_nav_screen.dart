@@ -1,6 +1,6 @@
 import 'package:clean_architecture_with_bloc/presentation/bottom_navigation/cubit/navigation_cubit.dart';
 import 'package:clean_architecture_with_bloc/presentation/products/screens/products_screen.dart';
-import 'package:clean_architecture_with_bloc/presentation/profile/profile_screen.dart';
+import 'package:clean_architecture_with_bloc/presentation/profile/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

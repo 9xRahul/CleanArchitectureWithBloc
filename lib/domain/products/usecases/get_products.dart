@@ -1,4 +1,4 @@
-import 'package:clean_architecture_with_bloc/domain/products/entities/product_entity.dart';
+import 'package:clean_architecture_with_bloc/domain/products/entities/product/product_entity.dart';
 import 'package:clean_architecture_with_bloc/domain/products/repositories/product_repository.dart';
 
 class GetProducts {
@@ -6,7 +6,7 @@ class GetProducts {
   GetProducts(this.productRepository);
 
   Future<List<ProductEntity>> call({String? category}) {
-    print("reched usecase");
+
 
     return productRepository.getProducts(category: category);
   }

@@ -22,7 +22,6 @@ class SecureAuthStorage {
   }
 
   Future<void> logout() async {
-    print("logout clicked");
     await _storage.delete(key: _tokenKey);
   }
 }

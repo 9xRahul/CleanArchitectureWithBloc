@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:clean_architecture_with_bloc/domain/products/entities/product_entity.dart';
+import 'package:clean_architecture_with_bloc/domain/products/entities/product/product_entity.dart';
 import 'package:clean_architecture_with_bloc/domain/products/usecases/get_products.dart';
 import 'package:meta/meta.dart';
 
@@ -14,22 +14,24 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   List<ProductEntity> _cachedProducts = [];
 
   ProductsBloc(this.getProducts) : super(ProductsInitial()) {
-    on<ProductsEvent>(_fetchProdcus);
+    on<FetchProducts>(_fetchProdcus);
+    on<ClearProductsList>(_clearCachedProducts);
   }
 
   FutureOr<void> _fetchProdcus(
-    ProductsEvent event,
+    FetchProducts event,
     Emitter<ProductsState> emit,
   ) async {
-    if (_cachedProducts.isNotEmpty) {
+    if (_cachedProducts.isNotEmpty && event.category.isEmpty) {
       emit(ProductsLoadSuccess(products: _cachedProducts));
       return;
     }
     emit(ProductsLoading());
     try {
+      emit(ProductsLoading());
       List<ProductEntity> prodcuts = [];
       if (prodcuts.isEmpty) {
-        prodcuts = await getProducts.call(category: "");
+        prodcuts = await getProducts.call(category: event.category);
 
         _cachedProducts = prodcuts;
 
@@ -38,5 +40,15 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     } catch (e) {
       emit(ProductLoadingError(message: e.toString(), statusCode: 0));
     }
+  }
+
+  FutureOr<void> _clearCachedProducts(
+    ClearProductsList event,
+    Emitter<ProductsState> emit,
+  ) {
+    _cachedProducts.clear();
+    print("Cache size: ${_cachedProducts.length}");
+
+    emit(ProductsInitial());
   }
 }

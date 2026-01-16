@@ -1,6 +1,6 @@
-import 'package:clean_architecture_with_bloc/domain/products/entities/diamenions_entity.dart';
-import 'package:clean_architecture_with_bloc/domain/products/entities/meta_entiry.dart';
-import 'package:clean_architecture_with_bloc/domain/products/entities/review_entity.dart';
+import 'package:clean_architecture_with_bloc/domain/products/entities/product/diamenions_entity.dart';
+import 'package:clean_architecture_with_bloc/domain/products/entities/product/meta_entiry.dart';
+import 'package:clean_architecture_with_bloc/domain/products/entities/product/review_entity.dart';
 
 class ProductEntity {
   final int id;

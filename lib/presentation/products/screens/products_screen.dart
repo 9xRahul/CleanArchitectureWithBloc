@@ -1,8 +1,10 @@
-import 'package:clean_architecture_with_bloc/core/routes/route_names.dart';
 import 'package:clean_architecture_with_bloc/core/utils/snack_bar.dart';
-import 'package:clean_architecture_with_bloc/presentation/login/bloc/login_bloc.dart';
-import 'package:clean_architecture_with_bloc/presentation/login/bloc/login_event.dart';
-import 'package:clean_architecture_with_bloc/presentation/products/bloc/products_bloc.dart';
+import 'package:clean_architecture_with_bloc/presentation/products/bloc/category/catogory_bloc.dart';
+import 'package:clean_architecture_with_bloc/presentation/products/bloc/category/catogory_event.dart';
+import 'package:clean_architecture_with_bloc/presentation/products/bloc/category/catogory_state.dart';
+
+import 'package:clean_architecture_with_bloc/presentation/products/bloc/products/products_bloc.dart';
+import 'package:clean_architecture_with_bloc/presentation/products/screens/widgets/catogory_list_item.dart';
 import 'package:clean_architecture_with_bloc/presentation/products/screens/widgets/product_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,52 +21,97 @@ class _ProductScreenState extends State<ProductScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    
-    context.read<ProductsBloc>().add(FetchProducts());
+
+    context.read<ProductsBloc>().add(FetchProducts(category: ""));
+    context.read<CategoryBloc>().add(FetchCategoriesEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("All Poducts"),
-          actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
-        ),
-        body: BlocConsumer<ProductsBloc, ProductsState>(
-          listener: (context, state) {
-            print("loading.........");
-            if (state is ProductsLoading) {
-              showSnackBar(context, "Prodcuts is Loading...");
-            } else if (state is ProductLoadingError) {
-              showSnackBar(context, "Error in loading the products");
-            }
-          },
-          builder: (context, state) {
-            if (state is ProductsLoading) {
-              return Center(child: CircularProgressIndicator());
-            } else if (state is ProductsLoadSuccess) {
-              final products = state.products;
+        appBar: AppBar(title: Text("All Poducts")),
+        body: Column(
+          children: [
+            SizedBox(
+              height: 55,
+              child: BlocBuilder<CategoryBloc, CategoryState>(
+                builder: (context, state) {
+                  if (state is CategoryLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-              return GridView.builder(
-                padding: const EdgeInsets.all(12),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // 2 columns
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 0.68, // controls card height
-                ),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  final product = products[index];
+                  if (state is CategoryLoaded) {
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      itemCount: state.categories.length,
+                      itemBuilder: (context, index) {
+                        final category = state.categories[index];
+                        final isSelected =
+                            state.selectedCategory == category.name;
 
-                  return ProductGridCard(product: product);
+                        return CategoryChip(
+                          name: category.name,
+                          isSelected: isSelected,
+                          onTap: () {
+                            // update category state
+
+                            context.read<CategoryBloc>().add(
+                              SelectCategoryEvent(category.name),
+                            );
+
+                            context.read<ProductsBloc>().add(
+                              FetchProducts(category: category.name),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }
+
+                  return const SizedBox();
                 },
-              );
-            } else {
-              return Center(child: Text("Failed to load products"));
-            }
-          },
+              ),
+            ),
+
+            Expanded(
+              child: BlocConsumer<ProductsBloc, ProductsState>(
+                listener: (context, state) {
+                  print("loading.........");
+                  if (state is ProductLoadingError) {
+                    showSnackBar(context, "Error in loading the products");
+                  }
+                },
+                builder: (context, state) {
+                  if (state is ProductsLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is ProductsLoadSuccess) {
+                    final products = state.products;
+
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(12),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // 2 columns
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 0.68, // controls card height
+                          ),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        final product = products[index];
+
+                        return ProductGridCard(product: product);
+                      },
+                    );
+                  } else {
+                    return Center(child: Text("Failed to load products"));
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

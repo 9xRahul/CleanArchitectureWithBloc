@@ -1,6 +1,6 @@
-import 'package:clean_architecture_with_bloc/data/products/models/diamensions_model.dart';
-import 'package:clean_architecture_with_bloc/data/products/models/meta_model.dart';
-import 'package:clean_architecture_with_bloc/data/products/models/review_model.dart';
+import 'package:clean_architecture_with_bloc/data/products/models/product/diamensions_model.dart';
+import 'package:clean_architecture_with_bloc/data/products/models/product/meta_model.dart';
+import 'package:clean_architecture_with_bloc/data/products/models/product/review_model.dart';
 
 class ProductModel {
   int? id;

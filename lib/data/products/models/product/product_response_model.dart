@@ -1,4 +1,4 @@
-import 'package:clean_architecture_with_bloc/data/products/models/products_model.dart';
+import 'package:clean_architecture_with_bloc/data/products/models/product/products_model.dart';
 
 class ProductsResponseModel {
   List<ProductModel>? products;

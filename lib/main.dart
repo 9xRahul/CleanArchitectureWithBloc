@@ -4,12 +4,13 @@ import 'package:clean_architecture_with_bloc/core/routes/route_names.dart';
 import 'package:clean_architecture_with_bloc/core/storage/secure_auth_storage.dart';
 import 'package:clean_architecture_with_bloc/presentation/app_start/cubit/app_start_cubit.dart';
 import 'package:clean_architecture_with_bloc/presentation/bottom_navigation/cubit/navigation_cubit.dart';
-import 'package:clean_architecture_with_bloc/presentation/products/bloc/products_bloc.dart';
+import 'package:clean_architecture_with_bloc/presentation/products/bloc/category/catogory_bloc.dart';
+import 'package:clean_architecture_with_bloc/presentation/products/bloc/products/products_bloc.dart';
+import 'package:clean_architecture_with_bloc/presentation/profile/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'presentation/login/bloc/login_bloc.dart';
-import 'presentation/login/screens/login_screen.dart';
 
 void main() {
   final deps = AppDependencies();
@@ -29,10 +30,20 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => AppStartCubit(SecureAuthStorage())),
 
         BlocProvider(create: (_) => BottomNavCubit()),
+        BlocProvider(
+          create: (_) => ProfileBloc(
+            deps.profileDependencies.getProfile,
+            deps.profileDependencies.logoutUser,
+          ),
+        ),
 
         BlocProvider(
           create: (context) =>
               ProductsBloc(deps.productDependencies.getProducts),
+        ),
+        BlocProvider(
+          create: (context) =>
+              CategoryBloc(deps.categoryDependencies.getCategories),
         ),
       ],
       child: MaterialApp(

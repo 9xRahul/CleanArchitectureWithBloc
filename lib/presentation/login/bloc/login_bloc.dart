@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:clean_architecture_with_bloc/core/error/api_exceptions.dart';
 import 'package:clean_architecture_with_bloc/core/storage/secure_auth_storage.dart';
 import 'package:clean_architecture_with_bloc/domain/login/usecases/login_user.dart';
@@ -11,6 +13,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc(this.loginUser) : super(LoginInitial()) {
     on<LoginSubmitted>(_onLoginSubmitted);
+    on<LogoutClicked>(_onLogout);
   }
 
   Future<void> _onLoginSubmitted(
@@ -31,5 +34,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } on AppException catch (e) {
       emit(LoginFailure(e.message.toString(), e.statusCode));
     }
+  }
+
+  FutureOr<void> _onLogout(LogoutClicked event, Emitter<LoginState> emit) {
+    emit(LoginLoading());
   }
 }

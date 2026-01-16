@@ -1,6 +1,6 @@
 import 'package:clean_architecture_with_bloc/data/products/data_sourses/products_remote_datsource.dart';
 import 'package:clean_architecture_with_bloc/data/products/mappers/product_mapper.dart';
-import 'package:clean_architecture_with_bloc/domain/products/entities/product_entity.dart';
+import 'package:clean_architecture_with_bloc/domain/products/entities/product/product_entity.dart';
 import 'package:clean_architecture_with_bloc/domain/products/repositories/product_repository.dart';
 
 class ProductRepositoryImpl implements ProductRepository {

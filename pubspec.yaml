@@ -37,6 +37,7 @@ dependencies:
   dio: ^5.9.0
   flutter_bloc: ^9.1.1
   flutter_secure_storage: ^10.0.0
+  skeletonizer: ^2.1.2
 
 dev_dependencies:
   flutter_test:

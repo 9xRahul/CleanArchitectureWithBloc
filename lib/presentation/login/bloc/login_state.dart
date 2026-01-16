@@ -4,7 +4,14 @@ abstract class LoginState {}
 
 class LoginInitial extends LoginState {}
 
-class LoginLoading extends LoginState {}
+class LoginLoading extends LoginState {
+  final String token;
+  final AuthState isAuthenticated;
+  LoginLoading({
+    this.token = "",
+    this.isAuthenticated = AuthState.unauthenticated,
+  });
+}
 
 class LoginSuccess extends LoginState {
   final String token;
@@ -17,4 +24,3 @@ class LoginFailure extends LoginState {
   final String message;
   LoginFailure(this.message, this.statusCode);
 }
-

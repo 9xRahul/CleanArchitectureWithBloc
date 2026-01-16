@@ -3,7 +3,7 @@ import 'package:clean_architecture_with_bloc/presentation/app_start/screen/app_s
 import 'package:clean_architecture_with_bloc/presentation/bottom_navigation/screen/bottom_nav_screen.dart';
 import 'package:clean_architecture_with_bloc/presentation/login/screens/login_screen.dart';
 import 'package:clean_architecture_with_bloc/presentation/products/screens/products_screen.dart';
-import 'package:clean_architecture_with_bloc/presentation/profile/profile_screen.dart';
+import 'package:clean_architecture_with_bloc/presentation/profile/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
