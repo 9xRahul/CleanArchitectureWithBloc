@@ -30,17 +30,16 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     try {
       emit(ProductsLoading());
       List<ProductEntity> prodcuts = [];
-      if (prodcuts.isEmpty) {
-        if (event.category == "all") {
-          prodcuts = await getProducts.call();
-        } else {
-          prodcuts = await getProducts.call(category: event.category);
-        }
 
-        _cachedProducts = prodcuts;
-
-        emit(ProductsLoadSuccess(products: prodcuts));
+      if (event.category == "all") {
+        prodcuts = await getProducts.call();
+      } else {
+        prodcuts = await getProducts.call(category: event.category);
       }
+
+      _cachedProducts = prodcuts;
+
+      emit(ProductsLoadSuccess(products: prodcuts));
     } catch (e) {
       emit(ProductLoadingError(message: e.toString(), statusCode: 0));
     }
