@@ -3,29 +3,16 @@ import 'package:clean_architecture_with_bloc/presentation/products/bloc/products
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProductDetailsScreen extends StatefulWidget {
+class ProductDetailsScreen extends StatelessWidget {
   final ProductEntity product;
 
-  const ProductDetailsScreen({super.key, required this.product});
+  ProductDetailsScreen({super.key, required this.product});
 
-  @override
-  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
-}
-
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final PageController _pageController = PageController();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    context.read<ProductsBloc>().add(ProductImageChanged(0));
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final product = widget.product;
-
+    print("rebuild");
     return Scaffold(
       appBar: AppBar(title: Text(product.title)),
       body: SingleChildScrollView(
@@ -56,7 +43,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         itemBuilder: (_, index) {
                           return Image.network(
                             images[index],
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                             width: double.infinity,
                           );
                         },

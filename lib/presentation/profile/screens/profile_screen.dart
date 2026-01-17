@@ -1,4 +1,5 @@
 import 'package:clean_architecture_with_bloc/core/routes/route_names.dart';
+import 'package:clean_architecture_with_bloc/core/utils/snack_bar.dart';
 import 'package:clean_architecture_with_bloc/presentation/bottom_navigation/cubit/navigation_cubit.dart';
 import 'package:clean_architecture_with_bloc/presentation/products/bloc/products/products_bloc.dart';
 import 'package:clean_architecture_with_bloc/presentation/profile/screens/widgets/profile_ui.dart';
@@ -78,14 +79,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // ✅ Error loading profile
           if (state is ProfileLoddingError) {
-            return Center(
-              child: Text(
-                state.message,
-                style: const TextStyle(color: Colors.red),
-              ),
-            );
+            if (state.statusCode == 401) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                showSnackBar(
+                  context,
+                  "${state.message} Please login to continue",
+                );
+                context.read<ProfileBloc>().add(LogoutEvent());
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  RouteNames.login,
+                  (route) => false,
+                );
+              });
+            }
           }
 
           // ✅ Profile loaded

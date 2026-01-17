@@ -131,22 +131,31 @@ class _ProductScreenState extends State<ProductScreen> {
                   } else if (state is ProductsLoadSuccess) {
                     final products = state.products;
 
-                    return GridView.builder(
-                      padding: const EdgeInsets.all(12),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, // 2 columns
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                            childAspectRatio: 0.68, // controls card height
-                          ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        final product = products[index];
+                    return products.length == 0
+                        ? Center(
+                            child: Container(
+                              child: Image(
+                                image: AssetImage('assets/png/noproducrts.png'),
+                              ),
+                            ),
+                          )
+                        : GridView.builder(
+                            padding: const EdgeInsets.all(12),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, // 2 columns
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                  childAspectRatio:
+                                      0.68, // controls card height
+                                ),
+                            itemCount: products.length,
+                            itemBuilder: (context, index) {
+                              final product = products[index];
 
-                        return ProductGridCard(product: product);
-                      },
-                    );
+                              return ProductGridCard(product: product);
+                            },
+                          );
                   } else {
                     return Center(child: Text("Failed to load products"));
                   }
