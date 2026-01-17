@@ -10,3 +10,9 @@ class FetchProducts extends ProductsEvent {
 }
 
 class ClearProductsList extends ProductsEvent {}
+
+class SearchProducts extends ProductsEvent {
+  final String query;
+
+  SearchProducts(this.query);
+}

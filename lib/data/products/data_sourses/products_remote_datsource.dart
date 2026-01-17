@@ -21,4 +21,12 @@ class ProductRemoteDataSource {
 
     return list.map((e) => ProductModel.fromJson(e)).toList();
   }
+
+  Future<List<ProductModel>> searchProducts({String? query}) async {
+    final path = ApiUrls.searchProducts;
+    final Map<String, dynamic> q = {"q": query};
+    final response = await apiClient.getApi(path: path, queryParams: q);
+    final list = response['products'] as List;
+    return list.map((e) => ProductModel.fromJson(e)).toList();
+  }
 }

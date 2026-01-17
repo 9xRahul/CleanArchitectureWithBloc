@@ -33,6 +33,29 @@ class _ProductScreenState extends State<ProductScreen> {
         appBar: AppBar(title: Text("All Poducts")),
         body: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 6),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: "Search products...",
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey.shade100,
+                ),
+                onChanged: (value) {
+                  if (value.isEmpty) {
+                    context.read<ProductsBloc>().add(
+                      FetchProducts(category: ""),
+                    );
+                  } else {
+                    context.read<ProductsBloc>().add(SearchProducts(value));
+                  }
+                },
+              ),
+            ),
             SizedBox(
               height: 55,
               child: BlocBuilder<CategoryBloc, CategoryState>(
@@ -47,7 +70,6 @@ class _ProductScreenState extends State<ProductScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       itemCount: state.categories.length + 1,
                       itemBuilder: (context, index) {
-                       
                         if (index == 0) {
                           final isSelected = state.selectedCategory == "";
 

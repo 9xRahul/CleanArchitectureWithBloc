@@ -19,3 +19,4 @@ final class ProductLoadingError extends ProductsState {
 
   ProductLoadingError({required this.statusCode, required this.message});
 }
+

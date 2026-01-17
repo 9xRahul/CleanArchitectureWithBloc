@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
 
         BlocProvider(
           create: (context) =>
-              ProductsBloc(deps.productDependencies.getProducts),
+              ProductsBloc(deps.productDependencies.getProducts,deps.productDependencies.searchProducts),
         ),
         BlocProvider(
           create: (context) =>

@@ -4,4 +4,5 @@ class ApiUrls {
   static const String getAllProducts = "$baseUrl/products";
   static const String currentUSer = "$baseUrl/user/me";
   static const String getCategories = "$getAllProducts/category-list";
+  static const String searchProducts = "$getAllProducts/search";
 }

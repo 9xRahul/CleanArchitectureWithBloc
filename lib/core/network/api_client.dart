@@ -42,6 +42,13 @@ class ApiClient {
         final storage = SecureAuthStorage();
         token = await storage.getToken();
       }
+
+      final uri = Uri.parse(
+        dio.options.baseUrl + path,
+      ).replace(queryParameters: queryParams);
+
+      print("REQUEST URL => $uri");
+
       final response = await dio.get(
         path,
         queryParameters: queryParams,

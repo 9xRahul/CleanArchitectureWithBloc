@@ -10,8 +10,13 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<List<ProductEntity>> getProducts({String? category}) async {
-
     final model = await remoteDataSource.getAllProducts(category: category);
     return model.map((model) => ProductMapper.toEntity(model)).toList();
+  }
+
+  @override
+  Future<List<ProductEntity>> searchproducts({String? query}) async {
+    final searchresult = await remoteDataSource.searchProducts(query: query);
+    return searchresult.map((e) => ProductMapper.toEntity(e)).toList();
   }
 }
