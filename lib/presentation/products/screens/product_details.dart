@@ -12,7 +12,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("rebuild");
+
     return Scaffold(
       appBar: AppBar(title: Text(product.title)),
       body: SingleChildScrollView(
@@ -22,8 +22,8 @@ class ProductDetailsScreen extends StatelessWidget {
             // Image slider + buttons
             BlocBuilder<ProductsBloc, ProductsState>(
               builder: (context, state) {
-                final images = product.images?.isNotEmpty == true
-                    ? product.images!
+                final images = product.images.isNotEmpty == true
+                    ? product.images
                     : [product.thumbnail];
 
                 return Stack(
@@ -132,7 +132,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   _infoTile("Brand", product.brand),
                   _infoTile("Category", product.category),
                   _infoTile("SKU", product.sku),
-                  _infoTile("Weight", "${product.weight ?? '-'} g"),
+                  _infoTile("Weight", "${product.weight} g"),
                   _infoTile(
                     "Minimum Order",
                     product.minimumOrderQuantity?.toString(),
